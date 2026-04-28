@@ -14,11 +14,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_pgsql pgsql bcmath gd zip \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
-
 COPY ./_docker/app/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
