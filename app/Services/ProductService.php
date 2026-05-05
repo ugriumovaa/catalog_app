@@ -4,11 +4,13 @@ namespace App\Services;
 
 use App\Dto\Product\ProductData;
 use App\Dto\Product\ProductSearchDto;
+use App\Dto\Product\ProductCreateDto;
 use App\Models\Product;
+use Illuminate\Pagination\AbstractPaginator;
 
 class ProductService
 {
-    public function getProducts(ProductSearchDto $productSearchDto)
+    public function getProducts(ProductSearchDto $productSearchDto): AbstractPaginator
     {
         $query = Product::query()
             ->with('category')
@@ -25,7 +27,13 @@ class ProductService
 
     public function getProduct(int $productId): ProductData
     {
-        return ProductData::from(Product::findOrFail($productId));
+        return ProductData::from(Product::with('category')->findOrFail($productId));
     }
+
+    public function createProduct(ProductCreateDto $productCreateDto): void
+    {
+        Product::create($productCreateDto->toArray());
+    }
+
 
 }

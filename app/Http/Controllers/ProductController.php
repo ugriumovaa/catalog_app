@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\Product\ProductCreateDto;
 use App\Dto\Product\ProductSearchDto;
 use App\Http\Requests\Product\IndexRequest;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
 use App\Http\Resources\Product\ProductResource;
-use App\Models\Product;
 use App\Services\ProductService;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
@@ -29,9 +29,11 @@ class ProductController extends Controller
         return ProductResource::collection($this->productService->getProducts($searchDto));
     }
 
-    public function store(ProductStoreRequest $request)
+    public function store(ProductStoreRequest $request): JsonResponse
     {
+        $this->productService->createProduct(ProductCreateDto::from($request->validated()));
 
+        return response()->json([], 204);
     }
 
     public function show(string $productId): ProductResource
