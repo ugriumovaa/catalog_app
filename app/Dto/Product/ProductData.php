@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Dto;
+namespace App\Dto\Product;
 
-use App\Category\CategoryDto;
+use App\Dto\Category\CategoryData;
 use Spatie\LaravelData\Data;
 
 class ProductData extends Data
 {
     public function __construct(
-        public int $id,
-        public string $name,
-        public string $description,
-        public string $price,
+        public int          $id,
+        public string       $name,
+        public string       $description,
+        public string       $price,
 
-        public CategoryDto $category,
+        public CategoryData $category,
 
     ) {}
 

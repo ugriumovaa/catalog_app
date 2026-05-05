@@ -2,15 +2,16 @@
 
 namespace App\Services;
 
-use App\Dto\ProductData;
-use App\Dto\ProductCreateDto;
-use App\Dto\ProductUpdateDto;
+use App\Dto\Product\ProductData;
 use App\Models\Product;
 
 class ProductService
 {
     public function getProducts()
     {
+        return ProductData::collect(
+            Product::with('category')->get()
+        );
     }
 
     public function getProduct(int $productId): ProductData
