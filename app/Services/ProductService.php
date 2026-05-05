@@ -41,8 +41,12 @@ class ProductService
         $product = Product::findOrFail($productUpdateDto->id);
         $data = array_filter($productUpdateDto->toArray(), fn ($v) => $v !== null);
         $product->update($data);
-
     }
 
+    public function deleteProduct(int $productId): void
+    {
+        $product = Product::findOrFail($productId);
+        $product->delete();
+    }
 
 }

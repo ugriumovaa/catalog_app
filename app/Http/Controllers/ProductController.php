@@ -54,8 +54,10 @@ class ProductController extends Controller
         return response()->json([], 204);
     }
 
-    public function destroy(string $id)
+    public function destroy(int $productId): JsonResponse
     {
-        //
+        $this->productService->deleteProduct($productId);
+
+        return response()->json([], 204);
     }
 }
