@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\Product\ProductSearchDto;
+use App\Http\Requests\Product\IndexRequest;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
@@ -15,9 +18,15 @@ class ProductController extends Controller
         private readonly ProductService $productService,
     ) {}
 
-    public function index()
+    public function index(IndexRequest $request): AnonymousResourceCollection
     {
-        return ProductResource::collection($this->productService->getProducts());
+        $searchDto = new ProductSearchDto(
+            category_id: $request->validated('category_id'),
+            page: $request->validated('page') ?? 1,
+            per_page: 12,
+        );
+
+        return ProductResource::collection($this->productService->getProducts($searchDto));
     }
 
     public function store(ProductStoreRequest $request)
