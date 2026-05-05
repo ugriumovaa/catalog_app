@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Dto\Product\ProductCreateDto;
 use App\Dto\Product\ProductSearchDto;
-use App\Http\Requests\Product\IndexRequest;
+use App\Dto\Product\ProductUpdateDto;
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
 use App\Http\Resources\Product\ProductResource;
@@ -18,7 +19,7 @@ class ProductController extends Controller
         private readonly ProductService $productService,
     ) {}
 
-    public function index(IndexRequest $request): AnonymousResourceCollection
+    public function index(SearchRequest $request): AnonymousResourceCollection
     {
         $searchDto = new ProductSearchDto(
             category_id: $request->validated('category_id'),
@@ -36,14 +37,21 @@ class ProductController extends Controller
         return response()->json([], 204);
     }
 
-    public function show(string $productId): ProductResource
+    public function show(int $productId): ProductResource
     {
         return new ProductResource($this->productService->getProduct($productId));
     }
 
-    public function update(ProductUpdateRequest $request, string $id)
+    public function update(ProductUpdateRequest $request, int $productId): JsonResponse
     {
-        //
+        $updateDto = ProductUpdateDto::from([
+            ...$request->validated(),
+            'id' => $productId,
+        ]);
+
+        $this->productService->updateProduct($updateDto);
+
+        return response()->json([], 204);
     }
 
     public function destroy(string $id)

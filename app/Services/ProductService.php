@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Dto\Product\ProductData;
 use App\Dto\Product\ProductSearchDto;
 use App\Dto\Product\ProductCreateDto;
+use App\Dto\Product\ProductUpdateDto;
 use App\Models\Product;
 use Illuminate\Pagination\AbstractPaginator;
 
@@ -33,6 +34,14 @@ class ProductService
     public function createProduct(ProductCreateDto $productCreateDto): void
     {
         Product::create($productCreateDto->toArray());
+    }
+
+    public function updateProduct(ProductUpdateDto $productUpdateDto): void
+    {
+        $product = Product::findOrFail($productUpdateDto->id);
+        $data = array_filter($productUpdateDto->toArray(), fn ($v) => $v !== null);
+        $product->update($data);
+
     }
 
 
