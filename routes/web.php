@@ -10,6 +10,10 @@ Route::get('/product/{id}', fn($id) => Inertia::render('Show', ['id' => $id])
 );
 
 Route::prefix('admin')->group(function () {
+    Route::get('/', fn () =>
+    Inertia::render('Admin/Index')
+    );
+
     Route::get('/products', fn () =>
     Inertia::render('Admin/Products/Index')
     );

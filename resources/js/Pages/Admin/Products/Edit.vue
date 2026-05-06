@@ -1,13 +1,11 @@
+<script>
+import AdminLayout from "../../../Layouts/AdminLayout.vue";
+
+defineOptions({
+    layout: AdminLayout,
+})
+</script>
+
 <template>
 
 </template>
-
-<script>
-export default {
-    name: "Edit.vue"
-}
-</script>
-
-<style scoped>
-
-</style>

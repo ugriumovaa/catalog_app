@@ -1,11 +1,14 @@
 <script setup>
-import {ref, watch} from 'vue'
+import { ref } from 'vue'
+import { useAuth } from '../Composables/useAuth'
 
 const props = defineProps({
     modelValue: Boolean
 })
 
-const emit = defineEmits(['update:modelValue', 'submit'])
+const emit = defineEmits(['update:modelValue'])
+
+const { login } = useAuth()
 
 const form = ref({
     email: '',
@@ -16,14 +19,15 @@ const loading = ref(false)
 
 const close = () => emit('update:modelValue', false)
 
-const submit = () => {
+const submit = async () => {
     loading.value = true
 
-    setTimeout(() => {
-        loading.value = false
-        emit('submit', form.value)
+    try {
+        await login(form.value)
         close()
-    }, 500)
+    } finally {
+        loading.value = false
+    }
 }
 </script>
 

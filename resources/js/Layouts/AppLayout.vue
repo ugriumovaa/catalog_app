@@ -1,28 +1,20 @@
 <script setup>
 import {ref} from 'vue'
-import LoginDialog from '@/Components/LoginDialog.vue'
-import HeaderAuth from "../Components/HeaderAuth.vue";
+import LoginDialog from '../Components/LoginDialog.vue'
+import Header from "../Components/Header.vue"
+import { useAuth } from '../Composables/useAuth'
 
 const showLogin = ref(false)
-const user = ref(null)
+const { isAuth, logout } = useAuth()
 
-const handleLogin = (data) => {
-    user.value = {
-        name: data.email
-    }
-}
-
-const logout = () => {
-    user.value = null
-}
 </script>
 
 <template>
     <el-container class="min-h-screen bg-gray-100">
 
         <el-header class="flex justify-end items-center px-8 border border-gray-300 bg-white">
-            <HeaderAuth
-                :user="user"
+            <Header
+                :is-auth="isAuth()"
                 @login="showLogin = true"
                 @logout="logout"
             />
@@ -34,7 +26,6 @@ const logout = () => {
 
         <LoginDialog
             v-model="showLogin"
-            @submit="handleLogin"
         />
 
     </el-container>

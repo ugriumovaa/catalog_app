@@ -36,13 +36,7 @@ const user = true
                     v-model="selectedCategory"
                     :categories="categories"
                     @change="onFilter"
-                />
-            <el-button
-                v-if="user"
-                type="primary"
-            >
-                Create Product
-            </el-button>
+            />
         </div>
 
         <ProductList

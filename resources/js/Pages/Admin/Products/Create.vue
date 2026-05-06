@@ -2,14 +2,14 @@
 import { computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ProductForm from '../../../Components/Product/ProductForm.vue'
-import AppLayout from "../../../Layouts/AppLayout.vue";
+import AdminLayout from "../../../Layouts/AdminLayout.vue";
 
 const props = defineProps({
     product: Object,
     categories: Array
 })
 defineOptions({
-    layout: AppLayout,
+    layout: AdminLayout,
     message: String,
     products: Array,
     user: Object

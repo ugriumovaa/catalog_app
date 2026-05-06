@@ -16,7 +16,11 @@ class AuthController extends Controller
 
     public function login (LoginRequest $request): AuthResource
     {
-        return  new AuthResource::($this->authService->login(LoginDto::from($request->validated())));
+        return new AuthResource(
+            $this->authService->login(
+                LoginDto::from($request->validated())
+            )
+        );
     }
 
     public function logout(): Response
