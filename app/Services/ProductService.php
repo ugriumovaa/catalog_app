@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Dto\Product\ProductData;
+use App\Dto\Product\ProductDto;
 use App\Dto\Product\ProductSearchDto;
 use App\Dto\Product\ProductCreateDto;
 use App\Dto\Product\ProductUpdateDto;
@@ -18,7 +18,7 @@ class ProductService
             ->byCategory($productSearchDto->category_id)
             ->latest();
 
-        return ProductData::collect(
+        return ProductDto::collect(
             $query->paginate(
                 perPage: $productSearchDto->per_page,
                 page: $productSearchDto->page,
@@ -26,9 +26,9 @@ class ProductService
         );
     }
 
-    public function getProduct(int $productId): ProductData
+    public function getProduct(int $productId): ProductDto
     {
-        return ProductData::from(Product::with('category')->findOrFail($productId));
+        return ProductDto::from(Product::with('category')->findOrFail($productId));
     }
 
     public function createProduct(ProductCreateDto $productCreateDto): void
