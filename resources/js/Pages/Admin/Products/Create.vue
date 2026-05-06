@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { router } from '@inertiajs/vue3'
+
 import ProductForm from '../../../Components/Product/ProductForm.vue'
 import AdminLayout from "../../../Layouts/AdminLayout.vue";
 

@@ -1,12 +1,12 @@
 <script setup>
 import {ref} from 'vue'
-import LoginDialog from '../Components/LoginDialog.vue'
-import Header from "../Components/Header.vue"
 import { useAuth } from '../Composables/useAuth'
+
+import Header from "../Components/Header.vue"
+import LoginDialog from '../Components/LoginDialog.vue'
 
 const showLogin = ref(false)
 const { isAuth, logout } = useAuth()
-
 </script>
 
 <template>

@@ -44,6 +44,3 @@ const user = true
         />
     </div>
 </template>
-
-<style>
-</style>

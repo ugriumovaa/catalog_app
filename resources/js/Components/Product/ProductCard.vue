@@ -23,8 +23,10 @@ const emit = defineEmits(['delete'])
                 </div>
             </div>
         </template>
+
         <div class="text-sm text-gray-500 mb-2">Category</div>
         <p>Product description...</p>
+
         <template #footer    v-if="showActions">
             <div class="flex justify-end">
                 <el-button v-if="!isAdmin" size="small">View</el-button>
