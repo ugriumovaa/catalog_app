@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Dto\Product\ProductCreateDto;
 use App\Dto\Product\ProductSearchDto;
 use App\Dto\Product\ProductUpdateDto;
-use App\Http\Requests\SearchRequest;
+use App\Http\Requests\Product\ProductSearchRequest;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
 use App\Http\Resources\Product\ProductResource;
@@ -19,7 +19,7 @@ class ProductController extends Controller
         private readonly ProductService $productService,
     ) {}
 
-    public function index(SearchRequest $request): AnonymousResourceCollection
+    public function index(ProductSearchRequest $request): AnonymousResourceCollection
     {
         $searchDto = new ProductSearchDto(
             category_id: $request->validated('category_id'),

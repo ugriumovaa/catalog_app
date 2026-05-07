@@ -1,31 +1,29 @@
 <script setup>
+import { ref, onMounted, watch } from "vue";
+import { useProduct } from '../Composables/useProduct'
+
 import AppLayout from '../Layouts/AppLayout.vue'
 import CategoryFilter from "../Components/CategoryFilter.vue";
 import ProductList from '../Components/Product/ProductList.vue'
 
-import {ref} from "vue";
-
 defineOptions({
     layout: AppLayout,
-    message: String,
-    products: Array,
-    user: Object
 })
 
-const categories = ref([
-    { id: 1, name: 'Electronics' },
-    { id: 2, name: 'Clothes' },
-    { id: 3, name: 'Books' }
-])
+const { products, meta, fetchProducts } = useProduct()
 
+const page = ref(1)
 const selectedCategory = ref(null)
 
-const onFilter = (val) => {
-    console.log('filter by category:', val)
+const load = () => {
+    fetchProducts({
+        page: page.value,
+        category_id: selectedCategory.value
+    })
 }
 
-const user = true
-
+onMounted(load)
+watch([selectedCategory, page], load)
 </script>
 
 
@@ -34,13 +32,22 @@ const user = true
         <div class="flex justify-between items-center mb-6">
             <CategoryFilter
                     v-model="selectedCategory"
-                    :categories="categories"
-                    @change="onFilter"
             />
         </div>
 
         <ProductList
-            :is-admin="true"
+            :products="products"
+            variant="public"
+        />
+
+        <el-pagination
+            v-if="meta"
+            class="mt-6 flex justify-center"
+            layout="prev, pager, next"
+            :total="meta.total"
+            :page-size="meta.per_page"
+            :current-page="meta.current_page"
+            @current-change="val => page = val"
         />
     </div>
 </template>

@@ -9,6 +9,6 @@ class ProductSearchDto extends Data
     public function __construct(
         public ?int $category_id = null,
         public int $page = 1,
-        public int $per_page = 10,
+        public int $per_page = 12,
     ) {}
 }

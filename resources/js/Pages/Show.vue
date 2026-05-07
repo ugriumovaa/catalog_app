@@ -16,7 +16,7 @@ defineProps({ product: Object })
         <div class=" mt-4">
             <ProductCard
                 :product="product"
-                :show-actions="false"
+                variant="plain"
             />
         </div>
     </div>

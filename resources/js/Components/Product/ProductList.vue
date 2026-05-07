@@ -4,7 +4,7 @@ import ProductDeleteDialog from "./ProductDeleteDialog.vue";
 import { ref } from 'vue'
 defineProps({
     products: Array,
-    isAdmin: Boolean
+    variant: String,
 })
 
 const showConfirm = ref(false)
@@ -17,7 +17,6 @@ const onDelete = () => {
 }
 
 const confirmDelete = () => {
-    // if (!selectedProduct.value) return
 
     loading.value = true
 
@@ -34,8 +33,8 @@ const confirmDelete = () => {
 <template>
     <el-row :gutter="20">
         <el-col
-            v-for="i in 4"
-            :key="i"
+            v-for="product in products"
+            :key="product.id"
             :xs="24"
             :sm="12"
             :md="8"
@@ -43,7 +42,8 @@ const confirmDelete = () => {
             class="mb-4"
         >
             <ProductCard
-                :is-admin="isAdmin"
+                :product = product
+                :variant="variant"
                 @delete="onDelete"
             />
         </el-col>

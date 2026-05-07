@@ -3,6 +3,7 @@ import api from './useApi'
 
 export function useProduct() {
     const products = ref([])
+    const meta = ref(null)
     const loading = ref(false)
 
     const fetchProducts = async (params = {}) => {
@@ -10,6 +11,7 @@ export function useProduct() {
         try {
             const { data } = await api.get('/products', { params })
             products.value = data.data
+            meta.value = data.meta
         } finally {
             loading.value = false
         }
@@ -34,6 +36,7 @@ export function useProduct() {
 
     return {
         products,
+        meta,
         loading,
         fetchProducts,
         getProduct,
