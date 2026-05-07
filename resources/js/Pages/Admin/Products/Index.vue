@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
+import { useCategory } from "../../../Composables/useCategory.js";
 import { useProduct } from '../../../Composables/useProduct'
 
 import AdminLayout from "../../../Layouts/AdminLayout.vue";
@@ -13,6 +14,8 @@ defineOptions({
 const { products, meta, fetchProducts } = useProduct()
 
 const selectedCategory = ref(null)
+const { categories, fetchCategories } = useCategory()
+
 const page = ref(1)
 
 const load = () => {
@@ -22,14 +25,21 @@ const load = () => {
     })
 }
 
-onMounted(load)
-watch([selectedCategory, page], load)
+onMounted(async () => {
+    await fetchCategories()
+    await load()
+})
+
+watch(selectedCategory, load)
 </script>
 
 <template>
     <div class="flex flex-col w-full">
         <div class="flex justify-between items-center mb-6">
-            <CategoryFilter/>
+            <CategoryFilter
+                v-model="selectedCategory"
+                :categories="categories"
+            />
         </div>
 
         <ProductList

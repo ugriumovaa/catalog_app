@@ -39,7 +39,9 @@ const emit = defineEmits(['delete'])
         </template>
 
         <div class="text-sm text-gray-500 mb-2">Category: {{ product.category?.name }}</div>
-        <p>{{ description }}</p>
+        <p :class="{'line-clamp-3': variant !== 'plain'}">
+            {{ description }}
+        </p>
 
         <template #footer v-if="variant !== 'plain'">
             <div class="flex justify-end">

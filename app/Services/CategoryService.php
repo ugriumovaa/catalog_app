@@ -8,7 +8,7 @@ use Spatie\LaravelData\DataCollection;
 
 class CategoryService
 {
-    public function getCategories(): DataCollection
+    public function getCategories(): mixed
     {
         return CategoryDto::collect(
             Category::select('id', 'name')->get()
