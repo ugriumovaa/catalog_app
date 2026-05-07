@@ -50,8 +50,7 @@ const emit = defineEmits(['delete'])
                 <div  v-if="showAdmin">
                     <el-button size="small">Edit</el-button>
                     <el-button
-                        @click="emit('delete')"
-                        size="small"
+                        @click="emit('delete', product)"                        size="small"
                         type="danger"
                         plain>Delete</el-button>
                 </div>

@@ -7,8 +7,8 @@ const token = ref(localStorage.getItem('token'))
 export function useAuth() {
     const login = async (payload) => {
         const { data } = await api.post('/login', payload)
-        token.value = data.data.token
-        localStorage.setItem('token', data.data.token)
+        token.value = data.data.token.token
+        localStorage.setItem('token', data.data.token.token)
 
         router.visit('/admin')
     }

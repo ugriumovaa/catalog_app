@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { router } from '@inertiajs/vue3'
 
 const api = axios.create({
     baseURL: '/api',
@@ -18,7 +19,7 @@ api.interceptors.response.use(
     err => {
         if (err.response?.status === 401) {
             localStorage.removeItem('token')
-            window.location.href = '/'
+            router.visit('/')
         }
         return Promise.reject(err)
     }

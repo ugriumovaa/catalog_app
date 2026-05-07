@@ -45,6 +45,7 @@ watch(selectedCategory, load)
         <ProductList
             :products="products"
             variant="admin"
+            @deleted="load"
         />
 
         <el-pagination

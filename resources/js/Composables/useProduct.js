@@ -31,6 +31,8 @@ export function useProduct() {
     }
 
     const deleteProduct = (id) => {
+        console.log(localStorage.getItem('token'))
+
         return api.delete(`/products/${id}`)
     }
 

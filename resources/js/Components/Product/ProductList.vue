@@ -1,39 +1,53 @@
 <script setup>
+import { ref } from 'vue'
+import { useProduct } from '../../Composables/useProduct'
+
+
 import ProductCard from './ProductCard.vue'
 import ProductDeleteDialog from "./ProductDeleteDialog.vue";
-import { ref } from 'vue'
-defineProps({
+
+const props = defineProps({
     products: Array,
     variant: String,
 })
+
+const emit = defineEmits(['deleted'])
+
+const { deleteProduct } = useProduct()
 
 const showConfirm = ref(false)
 const selectedProduct = ref(null)
 const loading = ref(false)
 
-
-const onDelete = () => {
+const onDelete = (product) => {
+    selectedProduct.value = product
     showConfirm.value = true
 }
 
-const confirmDelete = () => {
+const confirmDelete = async () => {
+    if (!selectedProduct.value) {
+        return
+    }
 
     loading.value = true
 
-    setTimeout(() => {
-        console.log('deleted')
+    try {
+        await deleteProduct(selectedProduct.value.id)
 
-        loading.value = false
+        emit('deleted')
+
         showConfirm.value = false
-        // selectedProduct.value = null
-    }, 500)
+        selectedProduct.value = null
+    } finally {
+        loading.value = false
+    }
 }
 </script>
 
 <template>
     <el-row :gutter="20">
         <el-col
-            v-for="product in products"
+            v-for="product in props.products"
             :key="product.id"
             :xs="24"
             :sm="12"
@@ -51,6 +65,7 @@ const confirmDelete = () => {
     <ProductDeleteDialog
         v-model="showConfirm"
         :loading="loading"
+        :message="`Delete ${selectedProduct?.name}?`"
         @confirm="confirmDelete"
     />
 </template>
