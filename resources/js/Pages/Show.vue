@@ -25,7 +25,6 @@ const load = async () => {
 }
 
 onMounted(load)
-console.log(product)
 </script>
 
 <template>

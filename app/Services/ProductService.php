@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Dto\Product\ProductCreateDto;
 use App\Dto\Product\ProductDto;
 use App\Dto\Product\ProductSearchDto;
-use App\Dto\Product\ProductCreateDto;
 use App\Dto\Product\ProductUpdateDto;
 use App\Models\Product;
 use Illuminate\Pagination\AbstractPaginator;
@@ -48,5 +48,4 @@ class ProductService
         $product = Product::findOrFail($productId);
         $product->delete();
     }
-
 }

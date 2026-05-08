@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Dto\Category\CategoryDto;
 use App\Models\Category;
-use Spatie\LaravelData\DataCollection;
 
 class CategoryService
 {
@@ -14,5 +13,4 @@ class CategoryService
             Category::select('id', 'name')->get()
         );
     }
-
 }

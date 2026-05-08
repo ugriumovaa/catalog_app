@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { useCategory } from "../Composables/useCategory.js";
-import { useProduct } from '../Composables/useProduct'
+import { ref, onMounted, watch } from "vue"
+import { useCategory } from "../Composables/useCategory.js"
+import { useProduct } from "../Composables/useProduct"
 
 import AppLayout from '../Layouts/AppLayout.vue'
-import CategoryFilter from "../Components/CategoryFilter.vue";
+import CategoryFilter from "../Components/CategoryFilter.vue"
 import ProductList from '../Components/Product/ProductList.vue'
 
 defineOptions({
@@ -13,9 +13,9 @@ defineOptions({
 
 const { products, meta, fetchProducts } = useProduct()
 
-const selectedCategory = ref(null)
 const { categories, fetchCategories } = useCategory()
 
+const selectedCategory = ref(null)
 const page = ref(1)
 
 const load = () => {
@@ -25,12 +25,17 @@ const load = () => {
     })
 }
 
+
 onMounted(async () => {
     await fetchCategories()
-    await load()
+    load()
 })
 
-watch(selectedCategory, load)
+watch(selectedCategory, () => {
+    page.value = 1
+})
+
+watch([page, selectedCategory], load)
 </script>
 
 
@@ -54,8 +59,7 @@ watch(selectedCategory, load)
             layout="prev, pager, next"
             :total="meta.total"
             :page-size="meta.per_page"
-            :current-page="meta.current_page"
-            @current-change="val => page = val"
+            v-model:current-page="page"
         />
     </div>
 </template>

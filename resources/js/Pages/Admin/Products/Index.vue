@@ -30,7 +30,11 @@ onMounted(async () => {
     await load()
 })
 
-watch(selectedCategory, load)
+watch(selectedCategory, () => {
+    page.value = 1
+})
+
+watch([page, selectedCategory], load)
 </script>
 
 <template>
@@ -55,7 +59,7 @@ watch(selectedCategory, load)
             :total="meta.total"
             :page-size="meta.per_page"
             :current-page="meta.current_page"
-            @current-change="val => page = val"
+            v-model:current-page="page"
         />
     </div>
 </template>

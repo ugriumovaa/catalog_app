@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-
 Route::apiResource('products', ProductController::class)
     ->only(['index', 'show']);
 

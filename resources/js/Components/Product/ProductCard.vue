@@ -4,7 +4,6 @@ import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
     product: Object,
-    isAdmin: Boolean,
     variant: {
         type: String,
         default: 'public'

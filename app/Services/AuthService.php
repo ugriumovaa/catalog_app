@@ -15,12 +15,13 @@ class AuthService
     {
         $user = User::where('email', $loginDto->email)->first();
 
-        if (!$user || !Hash::check($loginDto->password, $user->password)) {
+        if (! $user || ! Hash::check($loginDto->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['Invalid credentials'],
-            ]);        }
+            ]);
+        }
 
-        $token =  $user->createToken('api-token')->plainTextToken;
+        $token = $user->createToken('api-token')->plainTextToken;
 
         return new AuthDto(
             token: $token

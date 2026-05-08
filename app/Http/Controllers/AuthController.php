@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dto\Auth\LoginDto;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Resources\AuthResource;
+use App\Http\Resources\Auth\AuthResource;
 use App\Services\AuthService;
 use Illuminate\Http\Response;
 
@@ -14,7 +14,7 @@ class AuthController extends Controller
         private readonly AuthService $authService,
     ) {}
 
-    public function login (LoginRequest $request): AuthResource
+    public function login(LoginRequest $request): AuthResource
     {
         return new AuthResource(
             $this->authService->login(
@@ -29,5 +29,4 @@ class AuthController extends Controller
 
         return response()->noContent();
     }
-
 }
