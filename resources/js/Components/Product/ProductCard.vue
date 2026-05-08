@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
     product: Object,
@@ -23,6 +24,13 @@ const description = computed(() => {
 const showPublic = computed(() => props.variant === 'public')
 const showAdmin = computed(() => props.variant === 'admin')
 
+const goToEdit = () => {
+    router.visit(`/admin/products/${props.product.id}/edit`)
+}
+const goToShow = () => {
+    router.visit(`/products/${props.product.id}`)
+}
+
 const emit = defineEmits(['delete'])
 
 </script>
@@ -45,14 +53,29 @@ const emit = defineEmits(['delete'])
 
         <template #footer v-if="variant !== 'plain'">
             <div class="flex justify-end">
-                <el-button v-if="showPublic" size="small">View</el-button>
+                <el-button
+                    v-if="showPublic"
+                    size="small"
+                    @click="goToShow"
+                >
+                    View
+                </el-button>
 
                 <div  v-if="showAdmin">
-                    <el-button size="small">Edit</el-button>
                     <el-button
-                        @click="emit('delete', product)"                        size="small"
+                        size="small"
+                        @click="goToEdit"
+                    >
+                        Edit
+                    </el-button>
+                    <el-button
+                        @click="emit('delete', product)"
+                        size="small"
                         type="danger"
-                        plain>Delete</el-button>
+                        plain
+                    >
+                        Delete
+                    </el-button>
                 </div>
             </div>
         </template>

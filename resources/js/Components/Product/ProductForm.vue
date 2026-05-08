@@ -1,35 +1,50 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref, onMounted, computed } from 'vue'
+
+import { useCategory } from '../../Composables/useCategory'
 
 const props = defineProps({
     product: Object,
-    categories: Array,
-    isEdit: Boolean
 })
-
+console.log(props.product)
 const emit = defineEmits(['submit'])
+
+const formRef = ref()
+const { categories, fetchCategories } = useCategory()
+
+const isEdit = computed(() => !!props.product)
 
 const form = reactive({
     name: props.product?.name || '',
-    category_id: props.product?.category_id || '',
+    category_id: props.product?.category?.id|| '',
     description: props.product?.description || '',
     price: props.product?.price || ''
 })
 
 const rules = {
     name: [{ required: true, message: 'Name required', trigger: 'blur' }],
+    description: [{ required: true, message: 'Description required', trigger: 'blur'}],
     category_id: [{ required: true, message: 'Category required', trigger: 'change' }],
     price: [{ required: true, message: 'Price required', trigger: 'blur' }]
 }
 
-let formRef = null
+console.log(props.product)
+const onSubmit = async () => {
+    const valid = await formRef.value.validate()
 
-const onSubmit = () => {
-    formRef.validate((valid) => {
-        if (!valid) return
-        emit('submit', form)
+    if (!valid) {
+        return
+    }
+
+    emit('submit', {
+        ...form,
+        price: Number(form.price)
     })
 }
+
+onMounted(async () => {
+    await fetchCategories()
+})
 </script>
 
 <template>
@@ -61,7 +76,7 @@ const onSubmit = () => {
             </el-form-item>
 
             <el-form-item label="Description">
-                <el-input v-model="form.description" type="textarea" rows="4" />
+                <el-input v-model="form.description" type="textarea" :rows="4" />
             </el-form-item>
 
             <el-form-item label="Price" prop="price">

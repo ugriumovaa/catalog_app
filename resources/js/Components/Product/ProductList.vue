@@ -47,7 +47,7 @@ const confirmDelete = async () => {
 <template>
     <el-row :gutter="20">
         <el-col
-            v-for="product in props.products"
+            v-for="product in products"
             :key="product.id"
             :xs="24"
             :sm="12"
