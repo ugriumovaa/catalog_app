@@ -1,11 +1,31 @@
 <script setup>
+import { ref, onMounted } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
+
 import AppLayout from '../Layouts/AppLayout.vue'
 import ProductCard from '../Components/Product/ProductCard.vue'
-import { Link } from '@inertiajs/vue3'
+
+import { useProduct} from "../Composables/useProduct.js";
 
 defineOptions({ layout: AppLayout })
 
-defineProps({ product: Object })
+const { getProduct } = useProduct()
+
+const product = ref(null)
+const loading = ref(true)
+
+const productId = usePage().props.id
+
+const load = async () => {
+    loading.value = true
+
+    product.value = await getProduct(productId)
+
+    loading.value = false
+}
+
+onMounted(load)
+console.log(product)
 </script>
 
 <template>
@@ -15,6 +35,7 @@ defineProps({ product: Object })
         </Link>
         <div class=" mt-4">
             <ProductCard
+                v-if="product"
                 :product="product"
                 variant="plain"
             />

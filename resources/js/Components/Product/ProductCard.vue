@@ -28,7 +28,7 @@ const goToEdit = () => {
     router.visit(`/admin/products/${props.product.id}/edit`)
 }
 const goToShow = () => {
-    router.visit(`/products/${props.product.id}`)
+    router.visit(`/product/${props.product.id}`)
 }
 
 const emit = defineEmits(['delete'])
